@@ -1,9 +1,14 @@
 /* app.js */
 
+const npy = new npyjs();
+
+console.log('npyjs:', npyjs);
+
 // Global Variables
 let plotData = [];
 let integratedH2Map = [];
 let h2EmissionCube = null;
+let h2EmissionWavelengths = null; // New Variable for Wavelengths
 
 let currentSpectrumData = null;
 let currentContinuumData = null;
@@ -26,6 +31,51 @@ function hideElement(elementId) {
     if (el) el.style.display = 'none';
 }
 
+/**
+ * Loads and parses a .npz file, extracting 'wavelengths' and 'fluxes'.
+ * @param {string} url - The URL to the .npz file.
+ * @returns {Promise<Object>} - An object containing 'wavelengths' and 'fluxes' arrays.
+ */
+async function loadNpzFile(url) {
+    try {
+        // Fetch the .npz file as an ArrayBuffer
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const arrayBuffer = await response.arrayBuffer();
+
+        // Load the zip archive using JSZip
+        const zip = await JSZip.loadAsync(arrayBuffer);
+
+        // Initialize an object to hold the extracted arrays
+        const extractedData = {};
+
+        // Iterate over each file in the zip archive
+        const promises = Object.keys(zip.files).map(async (filename) => {
+            if (filename.endsWith('.npy')) {
+                // Extract the .npy file as an ArrayBuffer
+                const fileData = await zip.file(filename).async('arraybuffer');
+
+                // Parse the .npy file using npyjs
+                const parsedArray = npy.parse(fileData);
+
+                // Remove the .npy extension to use as the key
+                const key = filename.replace('.npy', '');
+
+                // Assign the parsed array to the corresponding key
+                extractedData[key] = parsedArray;
+            }
+        });
+
+        // Wait for all files to be processed
+        await Promise.all(promises);
+
+        console.log('Extracted Data:', extractedData);
+        return extractedData;
+    } catch (error) {
+        console.error('Error loading .npz file:', error);
+    }
+}
+
 // Load Data
 async function loadData() {
     const plotResponse = await fetch('static/data/plot_data.json');
@@ -34,8 +84,15 @@ async function loadData() {
     const heatmapResponse = await fetch('static/data/integrated_h2_map.json');
     integratedH2Map = await heatmapResponse.json();
 
-    const h2CubeResponse = await fetch('static/data/h2_emission_cube.json');
-    h2EmissionCube = await h2CubeResponse.json();
+    // Load the .npz file instead of the JSON file
+    const npzData = await loadNpzFile('static/data/h2_emission_cube.npz');
+    if (npzData) {
+        h2EmissionCube = convertTo3DArray(npzData.fluxes['data']); // Array of 340 flux values
+        h2EmissionWavelengths = npzData.wavelengths['data']; // Array of 340 wavelength values
+
+    } else {
+        console.error('Failed to load .npz data.');
+    }
 
     // Load Nighttime Fraction Data
     const nighttimeResponse = await fetch('static/data/nighttime_frac.json');
@@ -85,7 +142,7 @@ async function initializePlots() {
     if (normCheckbox) {
         normCheckbox.addEventListener('change', e => {
             if (currentSpectrumData) {
-                plotSpectrum(currentSpectrumData, e.target.checked);
+                plotSpectrum(currentSpectrumData, e.target.checked, currentContinuumData);
             }
         });
     }
@@ -168,8 +225,8 @@ function generateTraces(filterHasSpectra) {
                 Name: d["Name"],
                 SpectralType: d["Spectral Type"],
                 ApparentMagnitude: d["Apparent Magnitude"].toFixed(2),
-                GAL_LAT: d["Galactic Latitude"].toFixed(2),
-                GAL_LON: d["Galactic Longitude"].toFixed(2),
+                GAL_LAT: Number(d["Galactic Latitude"]).toFixed(1), // Rounded to 1 decimal
+                GAL_LON: Number(d["Galactic Longitude"]).toFixed(1), // Rounded to 1 decimal
                 HasSpectra: d["HasSpectra"],
                 IUESpectra: d["IUESpectra"]
             })),
@@ -319,13 +376,17 @@ function generateHeatmapTrace() {
     };
 }
 
-// // Plot H2 Spectrum in Channel 1 (1395–1405) and Channel 2 (1605–1615)
+// Plot H2 Spectrum in Channel 1 (1395–1405) and Channel 2 (1605–1615)
 function plotH2Channels(latIndex, lonIndex) {
 
-    // console.log(integratedH2Map.z[latIndex][lonIndex])
+    // Ensure h2EmissionWavelengths and h2EmissionCube are loaded
+    if (!h2EmissionWavelengths || !h2EmissionCube) {
+        console.error("H2 Emission data is not loaded.");
+        return;
+    }
 
-    const wav = h2EmissionCube.wavelengths; // length 340
-    const fluxArray = h2EmissionCube.fluxes[latIndex][lonIndex]; // shape [340]
+    const wav = h2EmissionWavelengths; // length 340
+    const fluxArray = h2EmissionCube[latIndex][lonIndex]; // shape [340]
 
     function extractRange(wav, flux, low, high) {
         const x = [], y = [];
@@ -446,6 +507,45 @@ function plotNighttimeFracPlot(starName) {
     Plotly.react('nighttime-frac-plot', [trace], layout, { responsive: true });
 }
 
+/**
+ * Converts a flat data array into a 3D nested array based on the provided shape and storage order.
+ *
+ * @param {Object} cube - The h2EmissionCube object.
+ * @param {Array<number>} cube.shape - An array representing the dimensions [dim0, dim1, dim2].
+ * @param {boolean} cube.fortranOrder - Boolean indicating the storage order.
+ * @param {Array|TypedArray} cube.data - The flat data array containing all elements.
+ * @returns {Array<Array<Array>>} - The resulting 3D nested array.
+ */
+function convertTo3DArray(cube) {
+    const [dim0, dim1, dim2] = [180, 360, 340];
+  
+    // Initialize the 3D array with empty sub-arrays
+    const array3D = new Array(dim0);
+    for (let h = 0; h < dim0; h++) {
+      array3D[h] = new Array(dim1);
+      for (let j = 0; j < dim1; j++) {
+        array3D[h][j] = new Array(dim2);
+      }
+    }
+  
+    // Function to calculate the flat index based on storage order
+    const getFlatIndex = false
+      ? (h, j, k) => k * dim0 * dim1 + j * dim0 + h
+      : (h, j, k) => h * dim1 * dim2 + j * dim2 + k;
+  
+    // Populate the 3D array
+    for (let h = 0; h < dim0; h++) {
+      for (let j = 0; j < dim1; j++) {
+        for (let k = 0; k < dim2; k++) {
+          const flatIndex = getFlatIndex(h, j, k);
+          array3D[h][j][k] = cube[flatIndex];
+        }
+      }
+    }
+  
+    return array3D;
+  }
+
 // Handle Plotly Click Events
 async function handlePlotClick(data) {
     if (!data.points.length) return;
@@ -517,23 +617,55 @@ async function handlePlotClick(data) {
                     </div>
                 `;
             }
+
+            // **Update selection-info for Selected Star**
+            selectedStarNameSpan.textContent = starData.Name;
+
+            // Optionally, reset the lat/lon if desired
+            // selectedLatLonSpan.textContent = "N/A";
+
+            return; // Exit early if a star was clicked
         }
-
-        selectedStarNameSpan.textContent = starData.Name;
-
-        return; // Exit early if a star was clicked
     }
 
     // If user clicked on the background map (heatmap)
     if (point.data.type === 'heatmap') {
-        const clickedX = point.x;
-        const clickedY = point.y;
+        const clickedX = point.x; // Longitude
+        const clickedY = point.y; // Latitude
+
+        // Find the closest indices in the integratedH2Map
         const lonIndex = findClosestIndex(integratedH2Map.x, clickedX);
         const latIndex = findClosestIndex(integratedH2Map.y, clickedY);
 
-        hideElement('h2-spectra-plot-text')
-        plotH2Channels(latIndex, lonIndex)
+        // Now, access the flux data from h2EmissionCube
+        if (!h2EmissionCube) {
+            console.error("H2 Emission Cube data is not loaded.");
+            alert("H2 Emission Cube data is not loaded. Please try again later.");
+            return;
+        }
+
+        // Access the flux array for the given latitude and longitude
+        const fluxArray = h2EmissionCube[latIndex][lonIndex]; // Array of 340 flux values
+        const wav = h2EmissionWavelengths; // Array of 340 wavelength values
+
+        // Ensure fluxArray and wav have the expected lengths
+        if (!fluxArray || fluxArray.length !== wav.length) {
+            console.error("Flux array or wavelengths array has unexpected length.");
+            alert("Data inconsistency detected. Please contact support.");
+            return;
+        }
+
+        // Now, proceed to plot H2 channels
+        plotH2Channels(latIndex, lonIndex);
+
+        // **Update selection-info for Selected Lat/Lon with Rounding**
         selectedLatLonSpan.textContent = `${Number(clickedY).toFixed(1)}°, ${Number(clickedX).toFixed(1)}°`;
+
+        // Optionally, reset the selected star if desired
+        // selectedStarNameSpan.textContent = "N/A";
+
+        // Optionally, hide the H2 spectra plot text and show channels
+        hideElement('h2-spectra-plot-text');
     }
 }
 
@@ -679,7 +811,6 @@ function updateSelectedStars() {
     selectedStarsDiv.innerHTML = html;
     downloadBtn.style.display = 'block'; // Show the download button
 }
-
 
 /**
  * Initiates the download of selected stars' data as a CSV file.

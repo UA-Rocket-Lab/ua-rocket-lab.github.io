@@ -37,10 +37,26 @@ body {
     left: -20px;
     width: 1010px;
     height: 585px;
+    z-index: 2;
 }
 #scatter-plot .modebar-container {
     top: 30px !important;
     right: 200px !important;
+}
+
+/* Scatter Plot Text */
+#scatter-plot-text {
+    position: absolute;
+    top: 275px; /* Adjust as needed */
+    right: 650px; /* Adjust as needed */
+    width: 500px; /* Adjust as needed */
+    height: 25%; /* Adjust as needed */
+    z-index: 1; /* Ensure it overlays other elements */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 16px;
 }
 
 /* H2 Spectra Plots */
@@ -55,11 +71,13 @@ body {
 #h2-spectra-plot-chan1 {
     right: 275px;
     width: 245px;
+    z-index: 3;
 }
 
 #h2-spectra-plot-chan2 {
     right: 20px;
     width: 245px;
+    z-index: 3;
 }
 
 /* H2 Spectra Plot Text */
@@ -84,11 +102,13 @@ body {
     right: 20px;
     width: 510px;
     height: 240px;
+    z-index: 3;
 }
 .iue-spectrum-message {
     font-size: 16px;
     text-align: center;
     margin-top: 100px;
+    z-index: 3;
 }
 
 /* Nighttime Fraction Plot */
@@ -128,6 +148,7 @@ body {
     font-family: Arial, sans-serif;
     font-size: 12px;
     color: #333;
+    z-index: 1000;
 }
 
 /* Selected Stars Table */

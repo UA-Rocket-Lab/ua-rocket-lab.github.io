@@ -5,6 +5,10 @@
     <title>SiMBAD OB Star Visualizer</title>
     <!-- Include Plotly.js -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Include JSZip -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <!-- Include npyjs locally -->
+    <script src="npy.js"></script>
     <!-- Link to CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -31,6 +35,7 @@
 
     <!-- Main Scatter Plot -->
     <div id="scatter-plot"></div>
+    <div id="scatter-plot-text">Loading data...</div>
 
     <!-- H2 Spectra Plots -->
     <div id="h2-spectra-plot-chan1" class="spectra-plot"></div>
