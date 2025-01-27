@@ -16,10 +16,6 @@ body {
     right: 20px;        /* Adjusted to a smaller value for visibility */
     width: 240px;       /* Defined width */
     padding: 20px;      /* Added padding for better layout */
-    background-color: rgba(200, 200, 200, 0.8); /* Semi-transparent background */
-    border: 2px solid #333; /* Dark border for visibility */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
 }
 
 .checkbox-group {
@@ -33,17 +29,6 @@ body {
     font-size: 18px;
     margin-right: 10px;
 }
-
-/* Download Button */
-/* #download-btn {
-    font-size: 18px;
-    width: 150px;
-    height: 40px;
-    cursor: pointer;
-    position: absolute;
-    bottom: 190px;
-    right: 1270px;
-} */
 
 /* Main Scatter Plot */
 #scatter-plot {
@@ -61,14 +46,10 @@ body {
 /* H2 Spectra Plots */
 .spectra-plot {
     position: absolute;
-    top: 165px;
+    top: 145px;
     right: 20px;
     width: 500px;
-    height: 200px;
-    background-color: rgba(200, 200, 200, 0.8); /* Semi-transparent background */
-    border: 2px solid #333; /* Dark border for visibility */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    height: 220px;
 }
 
 #h2-spectra-plot-chan1 {
@@ -82,22 +63,19 @@ body {
 }
 
 /* H2 Spectra Plot Text */
-/* #h2-spectra-plot-text {
+#h2-spectra-plot-text {
     position: absolute;
-    top: 275px;
-    right: 15px;
-    width: 500px;
-    height: 25%;
-    border: 1px solid black;
-    background-color: rgba(0,0,0,0);
-    pointer-events: none;
-    z-index: 1000;
+    top: 275px; /* Adjust as needed */
+    right: 15px; /* Adjust as needed */
+    width: 500px; /* Adjust as needed */
+    height: 25%; /* Adjust as needed */
+    z-index: 1000; /* Ensure it overlays other elements */
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 18px;
-    color: #414141;
-} */
+    text-align: center;
+    font-size: 16px;
+}
 
 /* IUE Spectra Plot */
 #IUE-spectra-plot {
@@ -120,48 +98,12 @@ body {
     right: 50px;
     width: 200px;
     height: 100px;
-    background-color: rgba(200, 200, 200, 0.8); /* Semi-transparent background */
-    border: 2px solid #333; /* Dark border for visibility */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
 }
-
-/* Fraction Labels */
-/* .frac-labels {
-    position: absolute;
-    bottom: 0;
-    right: 15px;
-    width: 500px;
-    height: 20px;
-} */
-
-/* .frac-label, .frac-label-percent {
-    position: absolute;
-    font-family: Arial, sans-serif;
-    font-size: 18px;
-    color: #414141;
-} */
-
-/* .frac-label {
-    bottom: -160px;
-} */
-
-/* .frac-label-percent {
-    font-size: 14px;
-} */
-
-/* .frac-label-percent:first-child {
-    bottom: -147px;
-} */
-
-/* .frac-label-percent:last-child {
-    bottom: -73px;
-} */
 
 /* Clicked Star Information */
 #clicked-star {
     position: absolute;
-    top: 595px;
+    top: 605px;
     right: 290px;
     width: 200px;
     height: 100px;
@@ -177,19 +119,73 @@ body {
 /* Selected Stars Textbox */
 #selected-stars {
     position: absolute;
-    top: 530px;
+    top: 490px;
     left: 20px;
     width: 750px;
-    height: 180px;
-    background-color: rgba(200, 200, 200, 0.8); /* Semi-transparent background */
-    border: 2px solid #333; /* Dark border for visibility */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-    z-index: 1;
+    height: 205px;
+    overflow-y: scroll; /* Make it scrollable */
+    padding: 10px; /* Add padding */
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #333;
 }
 
-/* Additional Styles for Labels */
-/* #h2-spectra-plot-text p, #clicked-star p, #selected-stars p {
-    margin: 0;
-    padding: 2px 5px;
-} */
+/* Selected Stars Table */
+#selected-stars table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#selected-stars th, #selected-stars td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#selected-stars th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+#selected-stars .no-selection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Vertically center */
+    font-size: 16px; /* Larger than table text */
+}
+
+/* Download Button */
+#download-btn {
+    display: none;
+    font-size: 16px;
+    width: 100px;
+    height: 17px;
+    cursor: pointer;
+    position: absolute;
+    top: 470px; /* Adjust position as needed */
+    left: 30px; /* Align with 'selected-stars' div */
+    margin-top: 10px; /* Spacing */
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    border: none;
+    border-radius: 5px;
+    z-index: 2000;
+    font-size: 10px;
+}
+
+#download-btn:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+.selection-info {
+    position: absolute;
+    top: -5px;
+    left: 5px;
+    width: 220px;
+    padding: 10px 15px;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    z-index: 1000; /* Ensure it stays on top */
+    line-height: 0.5;
+}

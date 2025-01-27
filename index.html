@@ -35,26 +35,15 @@
     <!-- H2 Spectra Plots -->
     <div id="h2-spectra-plot-chan1" class="spectra-plot"></div>
     <div id="h2-spectra-plot-chan2" class="spectra-plot"></div>
-    <!-- <div id="h2-spectra-plot-text">Click on a pixel to see its data</div> -->
+    <div id="h2-spectra-plot-text">Enable "BP Integrated H2 Map" and click on a pixel<br>to see its FIMS-SPEAR spectrum</div>
 
     <!-- IUE Spectra Plot -->
     <div id="IUE-spectra-plot"></div>
 
     <!-- Nighttime Visibility Fraction Plot -->
     <div id="nighttime-frac-plot"></div>
-    <!-- <div class="frac-labels">
-        <span class="frac-label" style="left: 282.5px;">O</span>
-        <span class="frac-label" style="left: 249.5px;">N</span>
-        <span class="frac-label" style="left: 216.5px;">D</span>
-        <span class="frac-label" style="left: 186.5px;">J</span>
-        <span class="frac-label" style="left: 153.5px;">F</span>
-        <span class="frac-label" style="left: 117.5px;">M</span>
-        <span class="frac-label-percent" style="left: 300px; bottom: 147px;">0%</span>
-        <span class="frac-label-percent" style="left: 300px; bottom: 73px;">100%</span>
-    </div> -->
 
     <!-- Clicked Star Information -->
-    <!-- <div id="clicked-star"></div> -->
     <div id="clicked-star" style="padding: 10px;"> <!-- padding: 10px; border: 1px solid #ccc;"> -->
         <p id="star-info"> </p>
     </div>
@@ -62,13 +51,16 @@
     <!-- Selected Stars Textbox -->
     <div id="selected-stars"></div>
 
+    <!-- Download Button -->
+    <button id="download-btn">Download CSV</button>
+
+    <div id="selection-info" class="selection-info">
+        <p>Selected star: <span id="selected-star-name">N/A</span></p>
+        <p>Selected lat/lon: <span id="selected-latlon">N/A</span></p>
+    </div>
+
     <!-- Include JavaScript -->
     <script src="app.js" defer></script>
 
 </body>
 </html>
-
-    <!-- <button id="download-btn">Download CSV</button> -->
-
-    <!-- Hidden Download Link -->
-    <!-- <a id="download-link" style="display:none;"></a> -->
