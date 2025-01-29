@@ -1,57 +1,73 @@
 /* styles.css */
 
-/* General Styles */
+/* Reset and General Styles */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: white;
-    margin: 0;
-    padding: 0;
     position: relative;
+    display: flex;
+    justify-content: center; /* Center the container horizontally */
+    align-items: center;     /* Center the container vertically */
+}
+
+#main-container {
+    position: relative;
+    width: 100%;
+    max-width: 1315px; /* Original width */
+    /* Maintain aspect ratio using padding-bottom */
+    height: 0;
+    padding-bottom: 55.56%; /* (730 / 1315) * 100% ≈ 55.56% */
+    background-color: transparent; /* Optional: for debugging */
 }
 
 /* Control Panel */
 #control-panel {
     position: absolute;
-    top: 20px;          /* Adjusted to a smaller value for visibility */
-    right: 20px;        /* Adjusted to a smaller value for visibility */
-    width: 240px;       /* Defined width */
-    padding: 20px;      /* Added padding for better layout */
+    top: 2.74%;          /* 20px / 730px * 100 */
+    right: 1.52%;        /* 20px / 1315px * 100 */
+    width: 18.26%;       /* 240px / 1315px * 100 */
+    padding: 2.74% 1.52%; /* 20px vertical / 730px, 20px horizontal / 1315px */
 }
 
 .checkbox-group {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    gap: 0.76%;           /* 10px / 1315px * 100 */
 }
 
 .checkbox-group label {
     font-size: 18px;
-    margin-right: 10px;
+    margin-right: 0.76%;  /* 10px / 1315px * 100 */
 }
 
 /* Main Scatter Plot */
 #scatter-plot {
     position: absolute;
-    top: -30px;
-    left: -20px;
-    width: 1010px;
-    height: 585px;
+    width: 76%;         /* 1010px / 1315px * 100 */
+    height: 80.14%;        /* 585px / 730px * 100 */
     z-index: 2;
 }
+
 #scatter-plot .modebar-container {
-    top: 30px !important;
-    right: 200px !important;
+    top: 20% !important;
+    right: 20% !important;
 }
 
 /* Scatter Plot Text */
 #scatter-plot-text {
     position: absolute;
-    top: 275px; /* Adjust as needed */
-    right: 650px; /* Adjust as needed */
-    width: 500px; /* Adjust as needed */
-    height: 25%; /* Adjust as needed */
-    z-index: 1; /* Ensure it overlays other elements */
+    top: 29%;          /* 275px / 730px * 100 */
+    right: 48%;        /* 650px / 1315px * 100 */
+    width: 38.04%;        /* 500px / 1315px * 100 */
+    height: 25%;          /* Already in percentage */
+    z-index: 1;           /* Ensure it overlays other elements */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,32 +78,32 @@ body {
 /* H2 Spectra Plots */
 .spectra-plot {
     position: absolute;
-    top: 145px;
-    right: 20px;
-    width: 500px;
-    height: 220px;
+    top: 19.86%;          /* 145px / 730px * 100 */
+    right: 1.52%;         /* 20px / 1315px * 100 */
+    width: 38.04%;        /* 500px / 1315px * 100 */
+    height: 30.14%;       /* 220px / 730px * 100 */
 }
 
 #h2-spectra-plot-chan1 {
-    right: 275px;
-    width: 245px;
+    right: 20.90%;        /* 275px / 1315px * 100 */
+    width: 18.64%;        /* 245px / 1315px * 100 */
     z-index: 3;
 }
 
 #h2-spectra-plot-chan2 {
-    right: 20px;
-    width: 245px;
+    right: 1.52%;         /* 20px / 1315px * 100 */
+    width: 18.64%;        /* 245px / 1315px * 100 */
     z-index: 3;
 }
 
 /* H2 Spectra Plot Text */
 #h2-spectra-plot-text {
     position: absolute;
-    top: 275px; /* Adjust as needed */
-    right: 15px; /* Adjust as needed */
-    width: 500px; /* Adjust as needed */
-    height: 25%; /* Adjust as needed */
-    z-index: 1000; /* Ensure it overlays other elements */
+    top: 22%;          /* 275px / 730px * 100 */
+    right: 1.14%;         /* 15px / 1315px * 100 */
+    width: 38.04%;        /* 500px / 1315px * 100 */
+    height: 25%;          /* Already in percentage */
+    z-index: 1000;        /* Ensure it overlays other elements */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -98,39 +114,41 @@ body {
 /* IUE Spectra Plot */
 #IUE-spectra-plot {
     position: absolute;
-    top: 367px;
-    right: 20px;
-    width: 510px;
-    height: 240px;
+    top: 50.27%;          /* 367px / 730px * 100 */
+    right: 1.52%;         /* 20px / 1315px * 100 */
+    width: 38.77%;        /* 510px / 1315px * 100 */
+    height: 32.88%;       /* 240px / 730px * 100 */
     z-index: 3;
 }
+
 .iue-spectrum-message {
     font-size: 16px;
     text-align: center;
-    margin-top: 100px;
+    margin-top: 20%;    /* 100px / 730px * 100 */
     z-index: 3;
 }
 
 /* Nighttime Fraction Plot */
 #nighttime-frac-plot {
     position: absolute;
-    top: 610px;
-    right: 50px;
-    width: 200px;
-    height: 100px;
+    top: 83.56%;          /* 610px / 730px * 100 */
+    right: 3.80%;         /* 50px / 1315px * 100 */
+    width: 15.20%;        /* 200px / 1315px * 100 */
+    height: 13.70%;       /* 100px / 730px * 100 */
 }
 
 /* Clicked Star Information */
 #clicked-star {
     position: absolute;
-    top: 605px;
-    right: 290px;
-    width: 200px;
-    height: 100px;
+    top: 82.88%;          /* 605px / 730px * 100 */
+    right: 22.07%;        /* 290px / 1315px * 100 */
+    width: 15.20%;        /* 200px / 1315px * 100 */
+    height: 13.70%;       /* 100px / 730px * 100 */
     display: flex;
     align-items: center;
     text-align: left;
 }
+
 #star-info {
     font-size: 14px;
     line-height: 1.65;
@@ -139,12 +157,12 @@ body {
 /* Selected Stars Textbox */
 #selected-stars {
     position: absolute;
-    top: 490px;
-    left: 20px;
-    width: 750px;
-    height: 205px;
-    overflow-y: scroll; /* Make it scrollable */
-    padding: 10px; /* Add padding */
+    top: 70%;          /* 490px / 730px * 100 */
+    left: 5%;          /* 20px / 1315px * 100 */
+    width: 57.05%;        /* 750px / 1315px * 100 */
+    height: 24%;       /* 205px / 730px * 100 */
+    overflow-y: scroll;   /* Make it scrollable */
+    padding: 1.37% 0.76%; /* 10px vertical / 730px, 10px horizontal / 1315px */
     font-family: Arial, sans-serif;
     font-size: 12px;
     color: #333;
@@ -153,13 +171,13 @@ body {
 
 /* Selected Stars Table */
 #selected-stars table {
-    width: 100%;
+    width: 95%;
     border-collapse: collapse;
 }
 
 #selected-stars th, #selected-stars td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 1.10% 0.61%; /* 8px vertical / 730px, 8px horizontal / 1315px */
     text-align: left;
 }
 
@@ -180,15 +198,15 @@ body {
 #download-btn {
     display: none;
     font-size: 16px;
-    width: 100px;
-    height: 17px;
+    width: 7.61%;          /* 100px / 1315px * 100 */
+    height: 2.33%;         /* 17px / 730px * 100 */
     cursor: pointer;
     position: absolute;
-    top: 470px; /* Adjust position as needed */
-    left: 30px; /* Align with 'selected-stars' div */
-    margin-top: 10px; /* Spacing */
+    top: 67%;           /* 470px / 730px * 100 */
+    left: 6%;           /* 30px / 1315px * 100 */
+    margin-top: 1.37%;     /* 10px / 730px * 100 */
     background-color: #4CAF50; /* Green background */
-    color: white; /* White text */
+    color: white;          /* White text */
     border: none;
     border-radius: 5px;
     z-index: 2000;
@@ -201,12 +219,13 @@ body {
 
 .selection-info {
     position: absolute;
-    top: -5px;
-    left: 5px;
-    width: 220px;
-    padding: 10px 15px;
+    top: 0%;                /* Adjusted to 0% */
+    left: 0.38%;            /* 5px / 1315px * 100 */
+    width: 20%;          /* 220px / 1315px * 100 */
+    padding: 1.37% 1.14%;   /* 10px vertical / 730px, 15px horizontal / 1315px */
     font-family: Arial, sans-serif;
-    font-size: 10px;
-    z-index: 1000; /* Ensure it stays on top */
+    font-size: 12px;
+    z-index: 1000;          /* Ensure it stays on top */
     line-height: 0.5;
+    transform: translateY(-0.68%); /* Shift upwards instead of using negative top */
 }

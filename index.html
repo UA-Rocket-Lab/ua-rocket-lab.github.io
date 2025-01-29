@@ -13,59 +13,60 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Control Panel -->
-    <div id="control-panel">
-        <div class="checkbox-group">
-            <label for="show-spectra-checkbox">Available IUE Spectra:</label>
-            <input type="checkbox" id="show-spectra-checkbox">
+    <div id="main-container">
+        <!-- Control Panel -->
+        <div id="control-panel">
+            <div class="checkbox-group">
+                <label for="show-spectra-checkbox">Available IUE Spectra:</label>
+                <input type="checkbox" id="show-spectra-checkbox">
+            </div>
+            <div class="checkbox-group">
+                <label for="show-bg-checkbox">BP Integrated H2 Map:</label>
+                <input type="checkbox" id="show-bg-checkbox">
+            </div>
+            <div class="checkbox-group">
+                <label for="norm-spectra-checkbox">Normalize IUE Spectra:</label>
+                <input type="checkbox" id="norm-spectra-checkbox">
+            </div>
+            <div class="checkbox-group">
+                <label for="show-cont-checkbox">Show IUE Continuum Fit:</label>
+                <input type="checkbox" id="show-cont-checkbox">
+            </div>
         </div>
-        <div class="checkbox-group">
-            <label for="show-bg-checkbox">BP Integrated H2 Map:</label>
-            <input type="checkbox" id="show-bg-checkbox">
+
+        <!-- Main Scatter Plot -->
+        <div id="scatter-plot"></div>
+        <div id="scatter-plot-text">Loading data...</div>
+
+        <!-- H2 Spectra Plots -->
+        <div id="h2-spectra-plot-chan1" class="spectra-plot"></div>
+        <div id="h2-spectra-plot-chan2" class="spectra-plot"></div>
+        <div id="h2-spectra-plot-text">Enable "BP Integrated H2 Map" and click on a pixel<br>to see its FIMS-SPEAR spectrum</div>
+
+        <!-- IUE Spectra Plot -->
+        <div id="IUE-spectra-plot"></div>
+
+        <!-- Nighttime Visibility Fraction Plot -->
+        <div id="nighttime-frac-plot"></div>
+
+        <!-- Clicked Star Information -->
+        <div id="clicked-star" style="padding: 10px;"> <!-- padding: 10px; border: 1px solid #ccc;"> -->
+            <p id="star-info"> </p>
         </div>
-        <div class="checkbox-group">
-            <label for="norm-spectra-checkbox">Normalize IUE Spectra:</label>
-            <input type="checkbox" id="norm-spectra-checkbox">
+
+        <!-- Selected Stars Textbox -->
+        <div id="selected-stars"></div>
+
+        <!-- Download Button -->
+        <button id="download-btn">Download CSV</button>
+
+        <div id="selection-info" class="selection-info">
+            <p>Selected star: <span id="selected-star-name">N/A</span></p>
+            <p>Selected lat/lon: <span id="selected-latlon">N/A</span></p>
         </div>
-        <div class="checkbox-group">
-            <label for="show-cont-checkbox">Show IUE Continuum Fit:</label>
-            <input type="checkbox" id="show-cont-checkbox">
-        </div>
+
+        <!-- Include JavaScript -->
+        <script src="app.js" defer></script>
     </div>
-
-    <!-- Main Scatter Plot -->
-    <div id="scatter-plot"></div>
-    <div id="scatter-plot-text">Loading data...</div>
-
-    <!-- H2 Spectra Plots -->
-    <div id="h2-spectra-plot-chan1" class="spectra-plot"></div>
-    <div id="h2-spectra-plot-chan2" class="spectra-plot"></div>
-    <div id="h2-spectra-plot-text">Enable "BP Integrated H2 Map" and click on a pixel<br>to see its FIMS-SPEAR spectrum</div>
-
-    <!-- IUE Spectra Plot -->
-    <div id="IUE-spectra-plot"></div>
-
-    <!-- Nighttime Visibility Fraction Plot -->
-    <div id="nighttime-frac-plot"></div>
-
-    <!-- Clicked Star Information -->
-    <div id="clicked-star" style="padding: 10px;"> <!-- padding: 10px; border: 1px solid #ccc;"> -->
-        <p id="star-info"> </p>
-    </div>
-
-    <!-- Selected Stars Textbox -->
-    <div id="selected-stars"></div>
-
-    <!-- Download Button -->
-    <button id="download-btn">Download CSV</button>
-
-    <div id="selection-info" class="selection-info">
-        <p>Selected star: <span id="selected-star-name">N/A</span></p>
-        <p>Selected lat/lon: <span id="selected-latlon">N/A</span></p>
-    </div>
-
-    <!-- Include JavaScript -->
-    <script src="app.js" defer></script>
-
 </body>
 </html>

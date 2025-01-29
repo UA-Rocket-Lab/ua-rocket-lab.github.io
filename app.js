@@ -263,7 +263,7 @@ function plotStars(filterHasSpectra = false, showHeatmap = false) {
         legend: {
             title: { text: 'Stars', font: { size: 22, color: '#333333' } },
             font: { size: 18, color: '#000000' },
-            x: 1.07, y: 1.07, xanchor: "left", yanchor: "top"
+            x: 1.07, y: 1.13, xanchor: "left", yanchor: "top"
         },
         shapes: generateGridLines()
     };
