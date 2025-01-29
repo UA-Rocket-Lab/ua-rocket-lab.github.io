@@ -19,7 +19,6 @@ body {
 #main-container {
     position: relative;
     width: 100%;
-    max-width: 1315px; /* Original width */
     /* Maintain aspect ratio using padding-bottom */
     height: 0;
     padding-bottom: 55.56%; /* (730 / 1315) * 100% ≈ 55.56% */
